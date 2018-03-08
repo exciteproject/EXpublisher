@@ -86,7 +86,7 @@ def creat_iden_part1(set_source_dict_keys,sowi_id,source_dict):
         #temp_id_set["id"]=source_dict[20][-1]
         temp_id_set["id"]=source_dict[20][0]
         ids_only_list.append("gid:01100105"+str(sowi_id)+str(id_counter))
-        temp_id_set["iri"]="gid:01100005"+str(sowi_id)+str(id_counter)
+        temp_id_set["iri"]="gid:01100105"+str(sowi_id)+str(id_counter)
         temp_id_set["label"]="identifier 01100105"+str(sowi_id)+str(id_counter)+" [id/01100105"+str(sowi_id)+str(id_counter)+"]"
         id_counter+=1
         temp_id_list.append(temp_id_set)
@@ -384,7 +384,7 @@ br_json["@graph"]=list_of_br
 
 import json
 
-with open('R:/PROJECTS/EXCITE.DFG/SHK_Report/opencitationjsonfile/data4.json', 'w', encoding="utf8") as fp:
+with open('data4.json', 'w', encoding="utf8") as fp:
     json.dump(br_json, fp, indent=4,ensure_ascii=False)
 
 

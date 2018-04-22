@@ -24,6 +24,11 @@ The purpose of the codes in the repository is converting generated data by [EXCI
 Since a portion of extracted references have match information, we use this opportunity to extract metadata from corresponding records in these databases and add it to our data and then convert it to a 
 JSON file.
 
+### Details about data:
+
+Besides EXCITE data availability in OCC portal, the bulk download is accessible via EXCITE server:
+
+* [Version 1 (08/03/2018)](http://excite-compute.west.uni-koblenz.de/download/OCC/linearized_br.json) - If you want to find an overview of this version, please check this [readme](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/version/Version1data-README.md) file.
 
 ### How to use the code:
 

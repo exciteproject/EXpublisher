@@ -32,3 +32,8 @@ The result set is enriched by Sowiport and SSOAR metadata. Afterward, it is stor
     * iri: "gbr:01101235"   (Cited by: 139 other brs in the Data)
 
 * At least 157196 items have enriched by metadata of Sowiport and SSOAR
+
+
+### Link to the Date:
+
+http://excite-compute.west.uni-koblenz.de/download/OCC/linearized_br.json

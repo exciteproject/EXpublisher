@@ -32,4 +32,4 @@ Besides EXCITE data availability in OCC portal, the bulk download is accessible 
 
 ### How to use the code:
 
-This section will be added soon.
+Please check the [documentation file](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/documents/EXCITE%20Data%20Converter%20to%20OCC%20ontology.pdf).

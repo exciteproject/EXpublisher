@@ -1,8 +1,8 @@
 from urllib.request import urlopen
 # assign a correct value for sb80
 def showrecods_sowiport_id(sowid,fil_str):
-    sb80=""
-    connection = urlopen(sb80+"/solr/biblio/select?q=id%3A"+str(sowid)+fil_str+"&rows=1&wt=json&indent=true")
+    sb80="http://sowiportbeta.gesis.org:8080/solr/biblio/select?q=id%3A"
+    connection = urlopen(sb80+str(sowid)+fil_str+"&rows=1&wt=json&indent=true")
     response = connection.read()
     sowidict1={}
     urllink=[]
@@ -40,15 +40,23 @@ def showrecods_sowiport_id(sowid,fil_str):
             sowidict1[137]=sowidict["recorddoi_str_mv"]
         elif sowidictkey=="publisher": 
             sowidict1[39]=sowidict["publisher"]
+    #sowidict1["numfound"]=eval(response)['response']['numFound']
     return sowidict1
 
 def showrecods_result(sowid,fil_str):
-    sb80=""
-    connection = urlopen(sb80+"/solr/biblio/select?q=id%3A"+str(sowid)+fil_str+"&rows=1&wt=json&indent=true")
+    sb80="http://sowiportbeta.gesis.org:8080/solr/biblio/select?q=id%3A"
+    connection = urlopen(sb80+str(sowid)+fil_str+"&rows=1&wt=json&indent=true")
     response = connection.read()
     sowidict=eval(response)['response']['docs']
     return sowidict
     
+def return_numfound_sowiport(fieldofquery, valueofquery):
+    
+    sb80="http://sowiportbeta.gesis.org:8080/solr/biblio/select?q="+fieldofquery+"%3A"+valueofquery
+    connection = urlopen(sb80+"&fl=id&rows=1&wt=json&indent=true")
+    response = connection.read()
+    
+    return eval(response)['response']['numFound']
     
 def create_filter(filter_list):
     if len(filter_list)>0:

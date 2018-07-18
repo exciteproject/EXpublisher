@@ -175,34 +175,34 @@ def main_replace_id():
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     uniquer_token=str(now).replace(" ","").replace("-","").replace(":","").replace(".","")
 
-    Target_dir="./Opencitation_run_area/Final_br_json"
+    Target_dir="/Final_br_json"
     #######
-    if os.path.exists("./Opencitation_run_area/Final_br_json/countdict.json"):
-        with open("./Opencitation_run_area/Final_br_json/countdict.json") as f:
+    if os.path.exists("/home/behnam/Opencitation_run_area/Final_br_json/countdict.json"):
+        with open("/home/behnam/Opencitation_run_area/Final_br_json/countdict.json") as f:
             dict_count_all = json.load(f)
     else:
         dict_count_all={}
     #######
-    if os.path.exists("./Opencitation_run_area/Final_br_json/dictionary_rep/be_id.json"):
-        with open("./Opencitation_run_area/Final_br_json/dictionary_rep/be_id.json") as f:
+    if os.path.exists("/Final_br_json/dictionary_rep/be_id.json"):
+        with open("/Final_br_json/dictionary_rep/be_id.json") as f:
             be_id_map = json.load(f)
     else:
         be_id_map={}
 
-    if os.path.exists("./Opencitation_run_area/Final_br_json/dictionary_rep/br_id.json"):
-        with open("./Opencitation_run_area/Final_br_json/dictionary_rep/br_id.json") as f:
+    if os.path.exists("/Final_br_json/dictionary_rep/br_id.json"):
+        with open("/Final_br_json/dictionary_rep/br_id.json") as f:
             br_id_map = json.load(f)
     else:
         br_id_map={}
 
-    if os.path.exists("./Opencitation_run_area/Final_br_json/dictionary_rep/id_id.json"):
-        with open("./Opencitation_run_area/Final_br_json/dictionary_rep/id_id.json") as f:
+    if os.path.exists("/Final_br_json/dictionary_rep/id_id.json"):
+        with open("/Final_br_json/dictionary_rep/id_id.json") as f:
             id_id_map = json.load(f)
     else:
         id_id_map={}
 
-    if os.path.exists("./Opencitation_run_area/Final_br_json/dictionary_rep/ra_ar_id.json"):
-        with open("./Opencitation_run_area/Final_br_json/dictionary_rep/ra_ar_id.json") as f:
+    if os.path.exists("/Final_br_json/dictionary_rep/ra_ar_id.json"):
+        with open("/Final_br_json/dictionary_rep/ra_ar_id.json") as f:
             ra_ar_id_map = json.load(f)
     else:
         ra_ar_id_map={}

@@ -49,3 +49,5 @@ def remove_dub_record():
 
     cur.close()
     conn.close()
+    
+#remove_dub_record()

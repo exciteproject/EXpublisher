@@ -7,7 +7,7 @@ import datetime
 
 def loaddata_from_csv_to_table(Corpus_id_name, flag_source_dir=0, file_fulldirectory=""):
     if flag_source_dir==0:
-        br_json1 = json.load(open("data/"+Corpus_id_name+".json", encoding="utf8"))
+        br_json1 = json.load(open("data/"+Corpus_id_name+"/json_fv_flatten_occ.json", encoding="utf8"))
     else:
         br_json1 = json.load(open(file_fulldirectory, encoding="utf8"))
     conn = psycopg2.connect("dbname='' user='' host='' password=''")
@@ -77,4 +77,4 @@ def loaddata_from_csv_to_table(Corpus_id_name, flag_source_dir=0, file_fulldirec
     conn.close()
     return uniquer_token
     
-loaddata_from_csv_to_table("0004")
+loaddata_from_csv_to_table("0000")

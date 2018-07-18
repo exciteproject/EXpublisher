@@ -19,74 +19,172 @@ import pandas as pd
 filter_list=["id","issn","journal_full_txt_mv","language","norm_pagerange_str","norm_publishDate_str",
              "title_full","isbn","person_author_txtP_mv","recordfulltext_str_mv","recordurl_str_mv",
              "recordurn_str_mv","recorddoi_str_mv","doctype_lit_str","publisher"]
-             
-             
+
+
+regexurlfilter = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        
+def validate_url_stirng(url_str):
+    return re.match(regexurlfilter, url_str) is not None 
+
+#========================================
+with open('support_data/urlexts.txt', 'r') as f:
+    urlexts = f.readlines()
+urlexts1=[]
+for ext_url in urlexts:
+        urlexts1.append(ext_url.replace("\n","").strip()[1:].split(".")[-1])
+urlexts1=list(set(urlexts1))
+#=======================================    
+
+def check_url_ext(urlselected):
+    if urlselected[-1] == "/":
+        urlselected=urlselected[:-1]
+    if urlselected.split(".")[-1] in urlexts1:
+        return False
+    else:
+        return True 
+
+progisbn = re.compile("^([0-9]+(\-|\_)*)*[0-9]*[a-zA-Z]*$")        
+def valfilter_isbn(isbn):   
+    result=progisbn.match(isbn)
+    if result:
+        return True
+    else:
+        return False  
+
+
+def remove_substr_frombegining(inputstr,substr):
+    if inputstr.find(substr)==-1:
+        return -1
+    else:
+        return inputstr[inputstr.find(substr)+len(substr):]
+
+def doiurlcheck(urldoi):
+    r = requests.get(urldoi)
+    if r.url[:18]!="https://dx.doi.org":
+        return True
+    else:
+        return False  
+
+progdoi = re.compile("^10.\d{4,9}\/[-._;()\/:A-Z0-9a-z]+$")
+def valfilter_doi(doicheck):
+    result=progdoi.match(doicheck) 
+    if result:
+        return True
+    else:
+        return False        
+
+progurn = re.compile("^urn:[a-z0-9][a-z0-9-]{0,31}:([a-z0-9()+,\-.:=@;$_!*']|%[0-9a-f]{2})+$")
+def valfilter_urn(urncheck):
+    result=progurn.match(urncheck)
+    if result:
+        return True
+    else:
+        return False
+
+
+with open('support_data/doi_sowi_correctedversion.json') as f:
+    doi_sowi_correctedversion = json.load(f)
+doi_sowi_correctedversion_key=list(doi_sowi_correctedversion.keys())        
+#sowidupids = json.load(open("support_data/sowiport_duplicates_17_03_14.json", encoding="utf8"))        
 def creat_iden_part1(set_source_dict_keys,sowi_id,source_dict):
-    id_counter=0
     temp_id_list=[]
     ids_only_list=[]
+    
     if 20 in list(set_source_dict_keys):
         temp_id_set={}
         temp_id_set["a"]="unique_identifier"
-        if validate_url_stirng(source_dict[20][0]):
-            temp_id_set["type"]="url"
-        else:
-            temp_id_set["type"]="isbn"
-        #temp_id_set["id"]=source_dict[20][-1]
         temp_id_set["id"]=source_dict[20][0]
-        ids_only_list.append("gid:0001"+str(sowi_id)+"20")
         temp_id_set["iri"]="gid:0001"+str(sowi_id)+"20"
         temp_id_set["label"]="identifier 0001"+str(sowi_id)+"20"+" [id/0001"+str(sowi_id)+"20"+"]"
-        id_counter+=1
-        temp_id_list.append(temp_id_set)
-    if 137 in list(set_source_dict_keys):
+        if validate_url_stirng(temp_id_set["id"]):
+            temp_id_set["type"]="url"
+            if check_url_ext(temp_id_set["id"])==True:
+                temp_id_list.append(temp_id_set)
+                ids_only_list.append("gid:0001"+str(sowi_id)+"20")
+        else:
+            temp_id_set["type"]="isbn"
+            if valfilter_isbn(temp_id_set["id"]):
+                temp_id_list.append(temp_id_set) 
+                ids_only_list.append("gid:0001"+str(sowi_id)+"20")
+    
+    #======================================================================
+    if 137 in list(set_source_dict_keys) and sowi_id in doi_sowi_correctedversion_key:
         temp_id_set={}
         temp_id_set["a"]="unique_identifier"
         doi_url=source_dict[137][0]
+        #temp_id_set["id"]=source_dict[137][-1]
+        #temp_id_set["id"]=source_dict[137][0]
+        temp_id_set["iri"]="gid:0001"+str(sowi_id)+"137"
+        temp_id_set["label"]="identifier 0001"+str(sowi_id)+"137"+" [id/0001"+str(sowi_id)+"137"+"]"
+        #numberofreturn=return_numfound_sowiport("recorddoi_str_mv","10.1093/ijpor")
+        #and (numberofreturn<len(sowidupids.get(sowi_id,[])))
         if validate_url_stirng(doi_url):
             if "https://dx.doi.org/" in doi_url:
                 doi_url=remove_substr_frombegining(doi_url,"https://dx.doi.org/")
                 temp_id_set["id"]=doi_url
                 temp_id_set["type"]="doi"
+                if valfilter_doi(doi_url):
+                    #if doiurlcheck("https://dx.doi.org/"+doi_url):
+                        temp_id_list.append(temp_id_set)
+                        ids_only_list.append("gid:0001"+str(sowi_id)+"137")
             elif "http://dx.doi.org/" in doi_url:
                 doi_url=remove_substr_frombegining(doi_url,"http://dx.doi.org/")
                 temp_id_set["id"]=doi_url
                 temp_id_set["type"]="doi"
+                if valfilter_doi(doi_url):
+                    #if doiurlcheck("https://dx.doi.org/"+doi_url):
+                        temp_id_list.append(temp_id_set)
+                        ids_only_list.append("gid:0001"+str(sowi_id)+"137")
             else:
                 temp_id_set["type"]="url"
                 temp_id_set["id"]=doi_url
+                if check_url_ext(doi_url):
+                    temp_id_list.append(temp_id_set)
+                    ids_only_list.append("gid:0001"+str(sowi_id)+"137")
         else:
             temp_id_set["type"]="doi"
             temp_id_set["id"]=doi_url
-        #temp_id_set["id"]=source_dict[137][-1]
-        #temp_id_set["id"]=source_dict[137][0]
-        ids_only_list.append("gid:0001"+str(sowi_id)+"137")
-        temp_id_set["iri"]="gid:0001"+str(sowi_id)+"137"
-        temp_id_set["label"]="identifier 0001"+str(sowi_id)+"137"+" [id/0001"+str(sowi_id)+"137"+"]"
-        id_counter+=1
-        temp_id_list.append(temp_id_set)
+            if valfilter_doi(doi_url):
+                    #if doiurlcheck("https://dx.doi.org/"+doi_url):
+                        temp_id_list.append(temp_id_set)
+                        ids_only_list.append("gid:0001"+str(sowi_id)+"137")
+    #========================================================================
     if 85 in list(set_source_dict_keys):
         temp_id_set={}
         temp_id_set["a"]="unique_identifier"
         urn_url=source_dict[85][0]
+        #temp_id_set["id"]=source_dict[85][-1]
+        #temp_id_set["id"]=source_dict[85][0]
+        temp_id_set["iri"]="gid:0001"+str(sowi_id)+"85"
+        temp_id_set["label"]="identifier 0001"+str(sowi_id)+"85"+" [id/0001"+str(sowi_id)+"85"+"]"
+        
         if validate_url_stirng(urn_url):
             if "http://hdl.handle.net/" in urn_url:
                 urn_url=remove_substr_frombegining(urn_url,"http://hdl.handle.net/")
                 temp_id_set["id"]=urn_url
                 temp_id_set["type"]="urn"
+                if valfilter_urn(urn_url):
+                    temp_id_list.append(temp_id_set)
+                    ids_only_list.append("gid:0001"+str(sowi_id)+"85")
             else:
                 temp_id_set["type"]="url"
                 temp_id_set["id"]=urn_url
+                if check_url_ext(urn_url):
+                    temp_id_list.append(temp_id_set)
+                    ids_only_list.append("gid:0001"+str(sowi_id)+"85")
         else:
             temp_id_set["type"]="urn"
             temp_id_set["id"]=urn_url
-        #temp_id_set["id"]=source_dict[85][-1]
-        #temp_id_set["id"]=source_dict[85][0]
-        ids_only_list.append("gid:0001"+str(sowi_id)+"85")
-        temp_id_set["iri"]="gid:0001"+str(sowi_id)+"85"
-        temp_id_set["label"]="identifier 0001"+str(sowi_id)+"85"+" [id/0001"+str(sowi_id)+"85"+"]"
-        id_counter+=1
-        temp_id_list.append(temp_id_set)
+            if valfilter_urn(urn_url):
+                    temp_id_list.append(temp_id_set)
+                    ids_only_list.append("gid:0001"+str(sowi_id)+"85")
+       
     return ids_only_list,temp_id_list
     
 def sowiport_br(ref_id,sowi_id):

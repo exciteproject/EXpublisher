@@ -2,7 +2,7 @@
 
 ### Description:
 
-This code is dedicated to the task of converting [EXCITE](https://west.uni-koblenz.de/en/research/excite) Date to a JSON file with ([OCC](http://opencitations.net/corpus) ontology).
+This code is dedicated to the task of converting [EXCITE](https://west.uni-koblenz.de/en/research/excite) Data to a JSON file with ([OCC](http://opencitations.net/corpus) ontology).
 The aim of [EXCITE](https://west.uni-koblenz.de/en/research/excite) project is the extraction of references out of PDFs, which will be done in three main steps:
 
 1. Extraction of reference strings out of PDFs

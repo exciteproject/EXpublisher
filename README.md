@@ -30,6 +30,12 @@ Besides EXCITE data availability in OCC portal, the bulk download is accessible 
 
 * [Version 1 (17/07/2018)](http://excite-compute.west.uni-koblenz.de/download/OCC/ssoar_17jul2018/data/data_20180717183529.json)
 
+In this version:
+1. The total number of brs: 1,045,189
+2. The total number of bes: 1,146,213
+
+
+
 ### How to use the code:
 
 Please check the [documentation file](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/documents/EXCITE%20Data%20Converter%20to%20OCC%20ontology.pdf).

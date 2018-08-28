@@ -30,7 +30,7 @@ Besides EXCITE data availability in OCC portal, the bulk download is accessible 
 
 * [Version 1 (17/07/2018)](http://excite-compute.west.uni-koblenz.de/download/OCC/ssoar_17jul2018/data/data_20180717183529.json)
 
-In this version:
+In this version of data we have a part of extracted references from [SSOAR](http://www.ssoar.info/) PDF corpus (about 24 k of ssoar PDFS):
 1. The total number of brs: 1,045,189
 2. The total number of bes: 1,146,213
 

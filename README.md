@@ -30,6 +30,8 @@ Besides EXCITE data availability in OCC portal, the bulk download is accessible 
 
 * [Version 1 (08/03/2018)](http://excite-compute.west.uni-koblenz.de/download/OCC/linearized_br.json) - If you want to find an overview of this version, please check this [readme](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/version/Version1data-README.md) file.
 
+* [Version 2 (17/07/2018)](http://excite-compute.west.uni-koblenz.de/download/OCC/ssoar_17jul2018/data/data_20180717183529.json)
+
 ### How to use the code:
 
 Please check the [documentation file](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/documents/EXCITE%20Data%20Converter%20to%20OCC%20ontology.pdf).

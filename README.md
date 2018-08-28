@@ -21,7 +21,7 @@ The [OCC](http://opencitations.net/corpus) includes information about six differ
 * identifiers (id): external identifiers (e.g. DOI, ORCID, PubMedID) associated with the bibliographic entities.
 
 The purpose of the codes in the repository is converting generated data by [EXCITE](https://west.uni-koblenz.de/en/research/excite) project to [OCC](http://opencitations.net/corpus) ontology. Besides that, these data will be enriched by metadata of records in [Sowiport.org](http://sowiport.gesis.org/) and [SSOAR](http://www.ssoar.info/).
-Since a portion of extracted references have match information, we use this opportunity to extract metadata from corresponding records in these databases and add it to our data and then convert it to a 
+Since a portion of extracted references have match information, we use this opportunity to extract metadata from corresponding records in these databases and add it to reference strings and then convert it to a 
 JSON file.
 
 ### Details about data:

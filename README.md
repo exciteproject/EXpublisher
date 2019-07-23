@@ -38,7 +38,7 @@ In this version of data we have a part of extracted references from [SSOAR](http
 
 ### How to use the code:
 How to run summary for developers:
-```java
+```html
 step 1: prepareing a csv file as input:
 * columns name in csv file: ref_id;ref_text;ssoar_id;match_id
 * put csv input file somewhere in Expublisher folder
@@ -77,4 +77,4 @@ Step 5: generate occ format
 * run python file: --> python3 replaceid_gen.py
 ```
 
-Please check the [documentation file](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/documents/EXCITE%20Data%20Converter%20to%20OCC%20ontology.pdf).
+To read full details Please check the [documentation file](https://github.com/exciteproject/Convertor_EXCITEdata_OCCJson/blob/master/documents/EXCITE%20Data%20Converter%20to%20OCC%20ontology.pdf).

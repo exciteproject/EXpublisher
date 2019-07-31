@@ -3,6 +3,7 @@ import pandas as pd
 import psycopg2
 import datetime
 import os.path
+from configs  import *
 
 def Replace_ids_in_flaten_json(ls_br_sql,uniquer_token,Target_dir,dict_count_all,listmapids):
     dict_count={}
@@ -161,9 +162,9 @@ def Replace_ids_in_flaten_json(ls_br_sql,uniquer_token,Target_dir,dict_count_all
         json.dump(br_json1, fp, indent=4,ensure_ascii=False)
 
 def main_replace_id():
-    conn = psycopg2.connect("dbname='' user='' host='' password=''")
+    conn = psycopg2.connect(psqlConfig())
     cur = conn.cursor()
-    cur.execute("""SELECT br_value from Test_data_publication ORDER BY auxnr""")
+    cur.execute("""SELECT br_value from """+ publicationTableName() +""" ORDER BY auxnr""")
     rows = cur.fetchall()
     cur.close()
     conn.close()
@@ -175,34 +176,34 @@ def main_replace_id():
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     uniquer_token=str(now).replace(" ","").replace("-","").replace(":","").replace(".","")
 
-    Target_dir="/Final_br_json"
+    Target_dir="Final_br_json"
     #######
-    if os.path.exists("/home/behnam/Opencitation_run_area/Final_br_json/countdict.json"):
-        with open("/home/behnam/Opencitation_run_area/Final_br_json/countdict.json") as f:
+    if os.path.exists("Final_br_json/countdict.json"):
+        with open("Final_br_json/countdict.json") as f:
             dict_count_all = json.load(f)
     else:
         dict_count_all={}
     #######
-    if os.path.exists("/Final_br_json/dictionary_rep/be_id.json"):
-        with open("/Final_br_json/dictionary_rep/be_id.json") as f:
+    if os.path.exists("Final_br_json/dictionary_rep/be_id.json"):
+        with open("Final_br_json/dictionary_rep/be_id.json") as f:
             be_id_map = json.load(f)
     else:
         be_id_map={}
 
-    if os.path.exists("/Final_br_json/dictionary_rep/br_id.json"):
-        with open("/Final_br_json/dictionary_rep/br_id.json") as f:
+    if os.path.exists("Final_br_json/dictionary_rep/br_id.json"):
+        with open("Final_br_json/dictionary_rep/br_id.json") as f:
             br_id_map = json.load(f)
     else:
         br_id_map={}
 
-    if os.path.exists("/Final_br_json/dictionary_rep/id_id.json"):
-        with open("/Final_br_json/dictionary_rep/id_id.json") as f:
+    if os.path.exists("Final_br_json/dictionary_rep/id_id.json"):
+        with open("Final_br_json/dictionary_rep/id_id.json") as f:
             id_id_map = json.load(f)
     else:
         id_id_map={}
 
-    if os.path.exists("/Final_br_json/dictionary_rep/ra_ar_id.json"):
-        with open("/Final_br_json/dictionary_rep/ra_ar_id.json") as f:
+    if os.path.exists("Final_br_json/dictionary_rep/ra_ar_id.json"):
+        with open("Final_br_json/dictionary_rep/ra_ar_id.json") as f:
             ra_ar_id_map = json.load(f)
     else:
         ra_ar_id_map={}
